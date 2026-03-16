@@ -169,3 +169,143 @@ and install:
 npm install -D concurrently
 This allows running backend + frontend with one command.
 ----------------------------------------------------------------------------------------------------
+
+# current Root Folder structure
+| Folder   | Purpose                    |
+| -------- | -------------------------- |
+| frontend | All micro frontends        |
+| backend  | All backend services       |
+| docker   | Container configuration    |
+| infra    | AWS infrastructure scripts |
+| scripts  | automation scripts         |
+| docs     | documentation              |
+| .github  | CI/CD pipelines            |
+
+
+# backend Structure
+backend
+│
+├── auth-service
+│
+├── todo-service
+│
+├── file-service
+│
+├── shared
+-------------------------------------------
+| Service      | Responsibility   |
+| ------------ | ---------------- |
+| auth-service | authentication   |
+| todo-service | todo CRUD        |
+| file-service | document uploads |
+| shared       | shared utilities |
+Ex: auth-service → 2 servers
+todo-service → 10 servers
+file-service → 4 servers
+
+Request
+   ↓
+Route
+   ↓
+Controller
+   ↓
+Service
+   ↓
+Repository
+   ↓
+Database
+
+# Frontend Structure
+frontend
+│
+├── shell-app
+│
+├── todo-mf
+│
+├── admin-mf
+│
+└── shared-ui
+Where Shell App
+   ├── Todo App
+   ├── Admin App
+   └── Shared Components
+Benefits:
+| Benefit                | Explanation               |
+| ---------------------- | ------------------------- |
+| Independent deployment | deploy modules separately |
+| Team scalability       | multiple teams            |
+| Performance            | lazy loading              |
+
+# Docker folder
+docker
+│
+├── docker-compose.dev.yml
+│
+├── docker-compose.prod.yml
+│
+├── nginx
+│
+└── redis
+Instead of manually running:
+
+MongoDB
+Redis
+Backend
+Frontend
+One command runs everything:
+docker compose up
+| Benefit               | Reason               |
+| --------------------- | -------------------- |
+| Centralized config    | Easier maintenance   |
+| Clean root project    | Organized infra      |
+| Multiple environments | dev / staging / prod |
+
+
+# Infra Folder
+infra
+│
+├── aws
+│
+├── terraform
+│
+└── monitoring
+
+# Final
+todo-enterprise-app
+
+frontend
+   shell-app
+   todo-mf
+   admin-mf
+
+backend
+   auth-service
+   todo-service
+   file-service
+   shared
+
+docker
+infra
+docs
+scripts
+.github
+
+## Arch
+Developer Machine
+        │
+        │
+   Docker Compose
+        │
+ ┌───────────────┐
+ │ Backend API   │
+ │ Node + Express│
+ └───────┬───────┘
+         │
+         │
+   ┌────────────┐
+   │ MongoDB    │
+   └────────────┘
+
+   ┌────────────┐
+   │ Redis      │
+   └────────────┘
