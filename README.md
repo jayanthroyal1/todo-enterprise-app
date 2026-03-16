@@ -67,3 +67,105 @@ todo-enterprise-app
 ├── ci-cd
 ├── docs
 └── infra
+
+# CI/CD Pipeline
+Developer Push Code
+        ↓
+GitHub Action Trigger
+        ↓
+Install Dependencies
+        ↓
+Run Lint
+        ↓
+Run Tests
+        ↓
+SonarQube Scan
+        ↓
+Build Docker Image
+        ↓
+Push Image to DockerHub
+        ↓
+Deploy to AWS EC2
+
+# Why SonarQube
+SonarQube detects:
+memory leaks
+bad code patterns
+duplicate code
+security vulnerabilities
+
+# Why Docker
+| Without Docker      | With Docker      |
+| ------------------- | ---------------- |
+| Works on my machine | Works everywhere |
+| Version conflicts   | Same environment |
+| Manual setup        | Automated        |
+
+## Final Architeture
+                Route53
+                   │
+                   │
+               CloudFront
+                   │
+                   │
+           AWS Load Balancer
+             /            \
+            /              \
+        EC2 Instance     EC2 Instance
+         (Docker)         (Docker)
+
+      ┌─────────────┐
+      │ React MFE   │
+      │ Node API    │
+      │ Redis       │
+      │ MongoDB     │
+      └─────────────┘
+
+                │
+                │
+            Cloudinary
+                │
+                │
+                S3 Storage
+
+# Professional Code Quality Setup
+Developer writes code
+        ↓
+Prettier formats code
+        ↓
+ESLint checks rules
+        ↓
+Husky prevents bad commit
+        ↓
+Commitlint validates commit message
+        ↓
+Code pushed to GitHub
+        ↓
+CI/CD pipeline runs
+
+# Installed Eslint
+npm install -D eslint@9 @eslint/js@9 eslint-plugin-react globals @eslint/json @eslint/css
+
+| Package             | Version Support |
+| ------------------- | --------------- |
+| eslint              | 9 stable        |
+| @eslint/js          | 10 latest       |
+| eslint-plugin-react | supports ≤9     |
+
+npm install -D eslint-plugin-react-hooks eslint-plugin-jsx-a11y
+These add:
+React Hooks rules
+Accessibility linting
+
+After Installing we to Run eslint
+npx eslint --init
+
+Note:
+"scripts": {
+  "dev": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
+  "lint": "npm run lint --prefix backend && npm run lint --prefix frontend"
+}
+and install:
+npm install -D concurrently
+This allows running backend + frontend with one command.
+----------------------------------------------------------------------------------------------------
