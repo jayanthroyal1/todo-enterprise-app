@@ -309,3 +309,20 @@ Developer Machine
    ┌────────────┐
    │ Redis      │
    └────────────┘
+
+# Auth System folder
+| Layer      | Responsibility     |
+| ---------- | ------------------ |
+| Route      | URL mapping        |
+| Controller | request/response   |
+| Service    | business logic     |
+| Repository | database queries   |
+| Model      | schema             |
+| Middleware | authentication     |
+| Utils      | reusable functions |
+
+| Role        | Permission       |
+| ----------- | ---------------- |
+| user        | manage own todos |
+| admin       | manage users     |
+| super_admin | full access      |
